@@ -28,18 +28,16 @@ export default class WebSessionConcept {
     // Hint: Take a look at how the "end" function makes sure the user is logged in. Keep in mind that a
     // synchronization like starting a session should just consist of a series of actions that may throw
     // exceptions and should not have its own control flow.
-    if (session.user === undefined) {
-      session.user = username;
-    } else {
-      throw new Error("A user session is already active!")
-    }
-    
+    this.isInactive(session);
+    this.isRegistered(username);
+    session.user = username;
   }
 
   getUser(session: WebSessionDoc) {
     this.isActive(session);
     return session.user!;
   }
+
 
   end(session: WebSessionDoc) {
     // We make sure the user is logged in before allowing the end action.
@@ -53,4 +51,29 @@ export default class WebSessionConcept {
       throw new UnauthenticatedError("Not logged in!");
     }
   }
+
+  isInactive(session: WebSessionDoc) {
+    if (session.user !== undefined) {
+      throw new Error("User is already logged in!")
+    }
+  }
+
+  
+  isRegistered(username: String) {
+    var is_registered = false;
+    // Need to store registered users somewhere, then check if user is registered
+    /*
+    for (let index = 0; index < users.length; index++) {
+      const user = array[index];
+      if (user === username) {
+
+      }      
+    }
+    */
+    if (!is_registered) {
+      throw new Error("User is not registered!")
+    }
+  }
+
+  
 }
